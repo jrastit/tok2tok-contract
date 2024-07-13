@@ -62,6 +62,32 @@
 						"internalType": "address",
 						"name": "user",
 						"type": "address"
+					}
+				],
+				"name": "UserLock",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
+					}
+				],
+				"name": "UserLockCancel",
+				"type": "event"
+			},
+			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "user",
+						"type": "address"
 					},
 					{
 						"indexed": false,
@@ -253,10 +279,37 @@
 				"type": "function"
 			},
 			{
+				"inputs": [],
+				"name": "user_has_token",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "user_lock",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "user_lock_cancel",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "_amount",
+						"name": "amount",
 						"type": "uint256"
 					}
 				],
@@ -309,11 +362,11 @@
 			]
 		},
 		"contracts/Tok2tok.sol": {
-			"keccak256": "0xf759bd09fdb2a416592cfe368ee20a342c71f9ee506a711270a9daf13af9c451",
+			"keccak256": "0xd1146f316d02f9cc52ac43736001353b07a1697647370361cdc2f44e095f13a5",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://0f45949f58d64af9d2aadaaa25a2161109c013e5318834076b1c5bd4100e35b6",
-				"dweb:/ipfs/QmdCXFBcvAwuiNKTZf19qeozQSY7NoR5PDwe4gWFAXJPBR"
+				"bzz-raw://8b12b37a602c4217c90c76290759c36dcb75a69809927b43fff94c0e97a55ddf",
+				"dweb:/ipfs/Qmd7HmaFTQdshL1QUC1FGhesjSfXwUaEgw24zvDKKU7wS2"
 			]
 		}
 	},
