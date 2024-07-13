@@ -14,7 +14,8 @@ contract Tok2tok {
 
     address payable owner;
 
-    constructor (_token) {
+
+    constructor (address _token) {
         token = _token;
         owner = payable(msg.sender);
     }
@@ -23,20 +24,20 @@ contract Tok2tok {
 
     function user_deposit_usdc (uint256 _amount) public {
         IERC20(token).transferFrom(msg.sender, address(this), _amount);
-        deposit[msg.sender] += msg.value;
-        total_deposit += msg.value;
+        deposit[msg.sender] += _amount;
+        total_deposit += _amount;
         
-        emit UserDepositUSDC(msg.sender, amount);
+        emit UserDepositUSDC(msg.sender, _amount);
     }
 
     event UserWithdrawUSDC(address indexed user, uint256 amount);
 
-    function user_withdraw (uint256 amount) public {
-        require(deposit[msg.sender] >= amount);
-        total_withdraw += amount;
-        deposit[msg.sender] -= amount;
-        IERC20(token).transfer(msg.sender, amount);
-        emit UserWithdrawUSDC(msg.sender, amount);
+    function user_withdraw (uint256 _amount) public {
+        require(deposit[msg.sender] >= _amount);
+        total_withdraw += _amount;
+        deposit[msg.sender] -= _amount;
+        IERC20(token).transfer(msg.sender, _amount);
+        emit UserWithdrawUSDC(msg.sender, _amount);
     }
 
     function withdraw_all () public {
@@ -60,7 +61,7 @@ contract Tok2tok {
         emit BillUser(msg.sender, amount);
     }
 
-    function admin_withdraw_usdc(address payable to, amount) public {
+    function admin_withdraw_usdc(address payable to, uint256 amount) public {
         require(msg.sender == owner);
         require(amount <= total_bill - total_admin_withdraw);
         IERC20(token).transfer(to, amount);
