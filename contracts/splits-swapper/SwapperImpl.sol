@@ -1,14 +1,14 @@
 // SPDX-License-Identifier: GPL-3.0-or-later
 pragma solidity ^0.8.17;
 
-import {ERC20} from "solmate/tokens/ERC20.sol";
-import {IOracle} from "splits-oracle/interfaces/IOracle.sol";
-import {PausableImpl} from "splits-utils/PausableImpl.sol";
-import {QuotePair, QuoteParams, SortedQuotePair} from "splits-utils/LibQuotes.sol";
-import {SafeCastLib} from "solady/utils/SafeCastLib.sol";
-import {SafeTransferLib} from "solady/utils/SafeTransferLib.sol";
-import {TokenUtils} from "splits-utils/TokenUtils.sol";
-import {WalletImpl} from "splits-utils/WalletImpl.sol";
+import {ERC20} from "./solmate/tokens/ERC20.sol";
+import {IOracle} from "./splits-oracle/interfaces/IOracle.sol";
+import {PausableImpl} from "./splits-utils/PausableImpl.sol";
+import {QuotePair, QuoteParams, SortedQuotePair} from "./splits-utils/LibQuotes.sol";
+import {SafeCastLib} from "./solady/utils/SafeCastLib.sol";
+import {SafeTransferLib} from "./solady/utils/SafeTransferLib.sol";
+import {TokenUtils} from "./splits-utils/TokenUtils.sol";
+import {WalletImpl} from "./splits-utils/WalletImpl.sol";
 
 import {ISwapperFlashCallback} from "./interfaces/ISwapperFlashCallback.sol";
 import {PairScaledOfferFactors} from "./libraries/PairScaledOfferFactors.sol";
