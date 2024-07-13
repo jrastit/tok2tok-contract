@@ -31,8 +31,17 @@ contract Tok2tok {
         emit UserDepositUSDC(msg.sender, amount);
     }
 
+    event UserLock(address indexed user);
+    event UserLockCancel(address indexed user);
+
     function user_lock () public {
         lock[msg.sender] = block.timestamp;
+        emit UserLock(msg.sender);
+    }
+
+    function user_lock_cancel () public {
+        lock[msg.sender] = 0;
+        emit UserLockCancel(msg.sender);
     }
 
     event UserWithdrawUSDC(address indexed user, uint256 amount);
