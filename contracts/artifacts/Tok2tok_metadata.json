@@ -6,7 +6,13 @@
 	"output": {
 		"abi": [
 			{
-				"inputs": [],
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "_token",
+						"type": "address"
+					}
+				],
 				"stateMutability": "nonpayable",
 				"type": "constructor"
 			},
@@ -45,7 +51,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "UserDeposit",
+				"name": "UserDepositUSDC",
 				"type": "event"
 			},
 			{
@@ -64,7 +70,7 @@
 						"type": "uint256"
 					}
 				],
-				"name": "UserWithdraw",
+				"name": "UserWithdrawUSDC",
 				"type": "event"
 			},
 			{
@@ -101,6 +107,24 @@
 			{
 				"inputs": [
 					{
+						"internalType": "address payable",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "admin_withdraw_usdc",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "uint256",
 						"name": "amount",
 						"type": "uint256"
@@ -127,6 +151,19 @@
 			{
 				"inputs": [],
 				"name": "contract_owner",
+				"outputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "token",
 				"outputs": [
 					{
 						"internalType": "address",
@@ -203,17 +240,23 @@
 				"type": "function"
 			},
 			{
-				"inputs": [],
-				"name": "user_deposit",
+				"inputs": [
+					{
+						"internalType": "uint256",
+						"name": "_amount",
+						"type": "uint256"
+					}
+				],
+				"name": "user_deposit_usdc",
 				"outputs": [],
-				"stateMutability": "payable",
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
 				"inputs": [
 					{
 						"internalType": "uint256",
-						"name": "amount",
+						"name": "_amount",
 						"type": "uint256"
 					}
 				],
@@ -257,12 +300,20 @@
 		"remappings": []
 	},
 	"sources": {
+		"@openzeppelin/contracts/token/ERC20/IERC20.sol": {
+			"keccak256": "0xc6a8ff0ea489379b61faa647490411b80102578440ab9d84e9a957cc12164e70",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://0ea104e577e63faea3b69c415637e99e755dcbf64c5833d7140c35a714d6d90c",
+				"dweb:/ipfs/Qmau6x4Ns9XdyynRCNNp3RhLqijJjFm7z5fyZazfYFGYdq"
+			]
+		},
 		"contracts/Tok2tok.sol": {
-			"keccak256": "0xd8646b35270f0e4c745a08ef667debb0fdf9ee38c65d7c80f169f3364cb10809",
+			"keccak256": "0xf759bd09fdb2a416592cfe368ee20a342c71f9ee506a711270a9daf13af9c451",
 			"license": "GPL-3.0",
 			"urls": [
-				"bzz-raw://ed776291b82e38aabeb08d8a4eb1c433c58bd2e86c3c50904b7351261e6d2342",
-				"dweb:/ipfs/QmVxEc4zBHN9KHA6ZCe286a5Ns73rMvvjhYMmtYw1TFatB"
+				"bzz-raw://0f45949f58d64af9d2aadaaa25a2161109c013e5318834076b1c5bd4100e35b6",
+				"dweb:/ipfs/QmdCXFBcvAwuiNKTZf19qeozQSY7NoR5PDwe4gWFAXJPBR"
 			]
 		}
 	},

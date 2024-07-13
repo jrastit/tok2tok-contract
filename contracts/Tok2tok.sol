@@ -16,7 +16,8 @@ contract Tok2tok {
 
     address payable owner;
 
-    constructor (_token) {
+
+    constructor (address _token) {
         token = _token;
         owner = payable(msg.sender);
     }
@@ -25,10 +26,10 @@ contract Tok2tok {
 
     function user_deposit_usdc (uint256 _amount) public {
         IERC20(token).transferFrom(msg.sender, address(this), _amount);
-        deposit[msg.sender] += msg.value;
-        total_deposit += msg.value;
+        deposit[msg.sender] += _amount;
+        total_deposit += _amount;
         
-        emit UserDepositUSDC(msg.sender, amount);
+        emit UserDepositUSDC(msg.sender, _amount);
     }
 
     event UserLock(address indexed user);
@@ -82,7 +83,7 @@ contract Tok2tok {
         emit BillUser(msg.sender, amount);
     }
 
-    function admin_withdraw_usdc(address payable to, amount) public {
+    function admin_withdraw_usdc(address payable to, uint256 amount) public {
         require(msg.sender == owner);
         require(amount <= total_bill - total_admin_withdraw);
         IERC20(token).transfer(to, amount);
