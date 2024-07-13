@@ -2,43 +2,49 @@
 
 pragma solidity >=0.7.0 <0.9.0;
 
+import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
+
 contract Tok2tok {
     mapping (address=>uint256) deposit;
     uint256 public total_deposit;
     uint256 public total_withdraw;
     uint256 public total_bill;
     uint256 public total_admin_withdraw;
+    address public token;
 
     address payable owner;
 
-    constructor () {
+    constructor (_token) {
+        token = _token;
         owner = payable(msg.sender);
     }
 
-    event UserDeposit(address indexed user, uint256 amount);
+    event UserDepositUSDC(address indexed user, uint256 amount);
 
-    function user_deposit () public payable {
+    function user_deposit_usdc (uint256 _amount) public {
+        IERC20(token).transferFrom(msg.sender, address(this), _amount);
         deposit[msg.sender] += msg.value;
         total_deposit += msg.value;
-        emit UserDeposit(msg.sender, msg.value);
+        
+        emit UserDepositUSDC(msg.sender, amount);
     }
 
-    event UserWithdraw(address indexed user, uint256 amount);
+    event UserWithdrawUSDC(address indexed user, uint256 amount);
 
     function user_withdraw (uint256 amount) public {
         require(deposit[msg.sender] >= amount);
         total_withdraw += amount;
         deposit[msg.sender] -= amount;
-        payable(msg.sender).transfer(amount);
-        emit UserWithdraw(msg.sender, amount);
+        IERC20(token).transfer(msg.sender, amount);
+        emit UserWithdrawUSDC(msg.sender, amount);
     }
 
     function withdraw_all () public {
         uint256 amount = deposit[msg.sender];
         total_withdraw += amount;
         deposit[msg.sender] = 0;
-        payable(msg.sender).transfer(amount);
-        emit UserWithdraw(msg.sender, amount);
+        IERC20(token).transfer(msg.sender, amount);
+        emit UserWithdrawUSDC(msg.sender, amount);
     }
 
     event BillUser(address indexed user, uint256 amount);
@@ -50,13 +56,18 @@ contract Tok2tok {
         }
         require(msg.sender == owner);
         total_bill += amount;
-        deposit[msg.sender] += amount;
+        deposit[msg.sender] -= amount;
         emit BillUser(msg.sender, amount);
+    }
+
+    function admin_withdraw_usdc(address payable to, amount) public {
+        require(msg.sender == owner);
+        require(amount <= total_bill - total_admin_withdraw);
+        IERC20(token).transfer(to, amount);
     }
 
     function admin_withdraw (address payable to, uint256 amount) public {
         require(msg.sender == owner);
-        require(amount <= total_bill - total_admin_withdraw);
         total_admin_withdraw += amount;
         to.transfer(amount);
     }
@@ -70,7 +81,7 @@ contract Tok2tok {
     }
 
     function contract_balance () public view returns (uint256) {
-        return address(this).balance;
+        return IERC20(token).balanceOf(address(this));
     }
 
     function contract_owner () public view returns (address) {
