@@ -6,6 +6,8 @@ import "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 
 contract Tok2tok {
     mapping (address=>uint256) deposit;
+    mapping (address=>uint256) lock;
+
     uint256 public total_deposit;
     uint256 public total_withdraw;
     uint256 public total_bill;
@@ -29,10 +31,18 @@ contract Tok2tok {
         emit UserDepositUSDC(msg.sender, amount);
     }
 
+    function user_lock () public {
+        lock[msg.sender] = block.timestamp;
+    }
+
     event UserWithdrawUSDC(address indexed user, uint256 amount);
 
     function user_withdraw (uint256 amount) public {
-        require(deposit[msg.sender] >= amount);
+        require(deposit[msg.sender] >= amount, "Insufficient balance");
+        require(block.timestamp - lock[msg.sender] > 1 minutes, "Withdrawal locked");
+        require(block.timestamp - lock[msg.sender] < 1 hours, "Withdrawal locked");
+        
+        lock[msg.sender] = 0;
         total_withdraw += amount;
         deposit[msg.sender] -= amount;
         IERC20(token).transfer(msg.sender, amount);
@@ -40,6 +50,9 @@ contract Tok2tok {
     }
 
     function withdraw_all () public {
+        require(block.timestamp - lock[msg.sender] > 1 minutes, "Withdrawal locked");
+        require(block.timestamp - lock[msg.sender] < 1 hours, "Withdrawal locked");
+        
         uint256 amount = deposit[msg.sender];
         total_withdraw += amount;
         deposit[msg.sender] = 0;
@@ -86,6 +99,11 @@ contract Tok2tok {
 
     function contract_owner () public view returns (address) {
         return owner;
+    }
+
+    function user_has_token () public view returns (bool) {
+        require (lock[msg.sender] == 0 || block.timestamp - lock[msg.sender] > 1 hours);
+        return deposit[msg.sender] > 0;
     }
 
 }
